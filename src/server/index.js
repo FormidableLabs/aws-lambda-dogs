@@ -104,11 +104,11 @@ const createApp = async ({ isLambda }) => {
 // LAMBDA: Export handler for lambda use.
 let handler;
 module.exports.handler = async (event, context) => {
-  await createApp({ isLambda: true });
+  if (!handler) {
+    await createApp({ isLambda: true });
+    handler = require("serverless-http")(app); // eslint-disable-line global-require
+  }
 
-  // Lazy require `serverless-http` to allow non-Lambda targets to omit.
-  // eslint-disable-next-line global-require
-  handler = handler || require("serverless-http")(app);
   return handler(event, context);
 };
 
