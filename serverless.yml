@@ -2,16 +2,6 @@
 service: sls-${self:custom.service}
 
 package:
-  # Limit files we will send up to Lambda.
-  # https://serverless.com/framework/docs/providers/aws/guide/packaging/
-  #
-  # AWS constraints:
-  # https://docs.aws.amazon.com/lambda/latest/dg/limits.html#limits-list
-  # - Zipped bundle: `50 MB`
-  # - Unzipped bundle: `250 MB`
-  #
-  # TODO(6): Use a custom packager.
-  # https://github.com/FormidableLabs/aws-lambda-serverless-reference/issues/6
   exclude:
     - "*"
     - "aws/**"

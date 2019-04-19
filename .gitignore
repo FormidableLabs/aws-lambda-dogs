@@ -13,3 +13,5 @@ aws/.service*
 .serverless
 .terraform
 _warmup
+
+.db-localdev-*

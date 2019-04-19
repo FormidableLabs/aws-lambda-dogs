@@ -11,3 +11,13 @@ variable "stage" {
 variable "service_name" {
   description = "Name of service / application"
 }
+
+locals {
+  data_bucket_name     = "tf-fmd-${var.service_name}-${var.stage}-${var.region}-data"
+  sls_lambda_role_name = "sls-${var.service_name}-${var.stage}-${var.region}-lambdaRole"
+
+  tags = "${map(
+    "Service", "${var.service_name}",
+    "Stage", "${var.stage}",
+  )}"
+}
