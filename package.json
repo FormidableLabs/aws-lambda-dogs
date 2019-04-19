@@ -36,10 +36,10 @@
   "dependencies": {
     "dogs": "FormidableLabs/dogs",
     "json-server": "^0.14.2",
+    "lowdb-adapter-aws-s3": "^1.1.2",
     "serverless-http": "^1.9.0"
   },
   "devDependencies": {
-    "aws-sdk": "^2.441.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.13.0",
     "eslint-config-formidable": "^4.0.0",

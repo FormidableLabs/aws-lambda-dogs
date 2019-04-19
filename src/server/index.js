@@ -9,6 +9,7 @@ const dogs = require("dogs/dogs.json");
 const existsP = promisify(fs.exists);
 const writeFileP = promisify(fs.writeFile);
 
+const ORIG_DATA = { dogs };
 const DEFAULT_PORT = 3000;
 const JSON_INDENT = 2;
 const PORT = parseInt(process.env.SERVER_PORT || DEFAULT_PORT, 10);
@@ -38,7 +39,7 @@ const ensureLocalDb = async ({ isLambda, reset }) => {
 
   // Otherwise, create from scratch.
   log({ msg: `Writing fresh local db at: ${localDb}` });
-  await writeFileP(localDb, JSON.stringify({ dogs }, null, JSON_INDENT));
+  await writeFileP(localDb, JSON.stringify(ORIG_DATA, null, JSON_INDENT));
   return localDb;
 };
 
@@ -47,11 +48,10 @@ const getAdapter = async ({ isLambda }) => {
     return await ensureLocalDb({ isLambda });
   }
 
-  const AwsAdapter = require("./aws-adapter"); // eslint-disable-line global-require
-  const storage = new AwsAdapter({
-    remoteFile,
-    remoteBucket,
-    data: { dogs }
+  const AwsAdapter = require("lowdb-adapter-aws-s3"); // eslint-disable-line global-require
+  const storage = new AwsAdapter(remoteFile, {
+    defaultValue: ORIG_DATA,
+    aws: { bucketName: remoteBucket }
   });
 
   const low = require("lowdb"); // eslint-disable-line global-require
@@ -91,7 +91,7 @@ const createApp = async ({ isLambda }) => {
     }
 
     // Reset in-memory database.
-    await router.db.setState({ dogs });
+    await router.db.setState(ORIG_DATA);
     res.json({ msg: "Database reset" });
   });
 

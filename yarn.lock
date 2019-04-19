@@ -296,9 +296,10 @@ atob@^2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
 
-aws-sdk@^2.373.0:
-  version "2.397.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.397.0.tgz#4397a091bc48755bfc8082118906c3a99def20d2"
+aws-sdk@^2.167.0:
+  version "2.441.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.441.0.tgz#40d4854aae132ab7a8d42e492669ff28db79f59d"
+  integrity sha512-PnS2lih7p6sPJYUeUSxab7VNsldcHEsCJddHXnnAZRxd2nVa8pAAbPSAauJIN9E6Z4DBhvX3nuQjj+roP/KBTg==
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -310,10 +311,9 @@ aws-sdk@^2.373.0:
     uuid "3.3.2"
     xml2js "0.4.19"
 
-aws-sdk@^2.441.0:
-  version "2.441.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.441.0.tgz#40d4854aae132ab7a8d42e492669ff28db79f59d"
-  integrity sha512-PnS2lih7p6sPJYUeUSxab7VNsldcHEsCJddHXnnAZRxd2nVa8pAAbPSAauJIN9E6Z4DBhvX3nuQjj+roP/KBTg==
+aws-sdk@^2.373.0:
+  version "2.397.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.397.0.tgz#4397a091bc48755bfc8082118906c3a99def20d2"
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -2521,6 +2521,13 @@ lodash.upperfirst@4.3.1:
 lodash@4, lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.8.0:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
+
+lowdb-adapter-aws-s3@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/lowdb-adapter-aws-s3/-/lowdb-adapter-aws-s3-1.1.2.tgz#c00125a476a4852fd421fa1cf7397deb47817dd4"
+  integrity sha512-Ia1qbPYPFFTmIat0F+r5WdTJJLUi60WxZ/eG4LEPGgNx+HkBmfVN64PTFf6Fj+1yqJbFh3IMbl/v7lJilUfcCA==
+  dependencies:
+    aws-sdk "^2.167.0"
 
 lowdb@^1.0.0:
   version "1.0.0"
