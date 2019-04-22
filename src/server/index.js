@@ -109,9 +109,7 @@ if (require.main === module) {
     await createApp({ isLambda: false });
     const server = app.listen({ port: PORT, host: HOST }, () => {
       const { address, port } = server.address();
-
-      // eslint-disable-next-line no-console
-      console.log(`Server started at http://${address}:${port}`);
+      log(`Server started at http://${address}:${port}`);
     });
   })();
 }
