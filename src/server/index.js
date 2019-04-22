@@ -63,40 +63,31 @@ const createApp = async ({ isLambda }) => {
   // Memoize.
   if (app) { return app; }
 
-  // The base app for any use...
+  // The base app + configuration.
   app = jsonServer.create();
-
-  // Settings
   app.set("json spaces", JSON_INDENT);
-
-  // Middlewares
   app.use(jsonServer.defaults({ }));
 
   // Pass through initial untouched dogs object for debugging ease
-  app.use("/dogs.json", (req, res) => {
-    res.json(dogs);
-  });
+  app.use("/dogs.json", (req, res) => res.json(dogs));
 
-  // Create router / internal database.
+  // Create router / internal db, configure, and enable.
   const adapter = await getAdapter({ isLambda });
   const router = jsonServer.router(adapter);
   router.db._.id = "key";
+  app.use(router);
 
   // Reset data to initial state
   app.use("/reset", async (req, res) => {
     // Set persistent storage (only needed on local disk).
     if (isLocaldev) {
-      await ensureLocalDb({ isLambda,
-        reset: true });
+      await ensureLocalDb({ isLambda, reset: true });
     }
 
     // Reset in-memory database.
     await router.db.setState(ORIG_DATA);
     res.json({ msg: "Database reset" });
   });
-
-  // REST API for rest
-  app.use(router);
 
   return app;
 };
@@ -116,10 +107,7 @@ module.exports.handler = async (event, context) => {
 if (require.main === module) {
   (async () => {
     await createApp({ isLambda: false });
-    const server = app.listen({
-      port: PORT,
-      host: HOST
-    }, () => {
+    const server = app.listen({ port: PORT, host: HOST }, () => {
       const { address, port } = server.address();
 
       // eslint-disable-next-line no-console
