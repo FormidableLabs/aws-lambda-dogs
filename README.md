@@ -72,7 +72,7 @@ $ curl -X PATCH "https://elei8f5o59.execute-api.us-east-1.amazonaws.com/sandbox/
   --data name="Rustinus B. Rutherford" \
   --header "x-dogs-api-key: 534d2ce3c021f7eb0a3eff708b981a40"
 
-$ curl "http://elei8f5o59.execute-api.us-east-1.amazonaws.com/sandbox/dogs/cLnG8C2d_" \
+$ curl "https://elei8f5o59.execute-api.us-east-1.amazonaws.com/sandbox/dogs/cLnG8C2d_" \
   --header "x-dogs-api-key: 534d2ce3c021f7eb0a3eff708b981a40"
 
 # Reset the read-write datastore back to original state.
