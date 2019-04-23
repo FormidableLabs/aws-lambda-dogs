@@ -23,7 +23,7 @@ $ yarn lambda:localdev
 
 ### Authentication
 
-To prevent miscreants entering mean information about our doggos, we require an API key header to mutate the underlying mutable, persistent data. Without this key, only `GET` requests are supported against the **original* unchanged dogs data.
+To prevent miscreants entering mean information about our doggos, we require an API key header to mutate the underlying mutable, persistent data. Without this key, only `GET` requests are supported against the **original** unchanged dogs data.
 
 To switch to "read-write + persistent" mode, add this header to all requests `x-dogs-api-key: 534d2ce3c021f7eb0a3eff708b981a40`. (_Note_: for simplicity, we've hardcoded a dummy value that we could change later).
 
