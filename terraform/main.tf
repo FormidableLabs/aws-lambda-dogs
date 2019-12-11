@@ -33,9 +33,9 @@ JSON
 }
 
 module "serverless" {
-  source = "../../terraform-aws-serverless//"
-  # TODO REENABLE source  = "FormidableLabs/serverless/aws"
-  # TODO REENABLE version = "0.8.6"
+  # source = "../../terraform-aws-serverless//"
+  source  = "FormidableLabs/serverless/aws"
+  version = "0.8.7"
 
   region       = "${var.region}"
   service_name = "${var.service_name}"
