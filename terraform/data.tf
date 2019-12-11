@@ -28,6 +28,6 @@ resource "aws_iam_policy" "data_access" {
 }
 
 resource "aws_iam_role_policy_attachment" "data_access" {
-  role       = "${local.sls_lambda_role_name}"
+  role       = "${module.serverless.lambda_role_name}"
   policy_arn = "${aws_iam_policy.data_access.arn}"
 }
