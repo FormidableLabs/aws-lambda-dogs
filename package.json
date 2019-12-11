@@ -24,7 +24,13 @@
     "cf:bootstrap:create": "aws cloudformation create-stack --capabilities CAPABILITY_NAMED_IAM $(yarn -s cf:bootstrap:_tmpl) $(yarn -s cf:bootstrap:_stack) $(yarn -s cf:_params)",
     "cf:bootstrap:update": "aws cloudformation update-stack --capabilities CAPABILITY_NAMED_IAM $(yarn -s cf:bootstrap:_tmpl) $(yarn -s cf:bootstrap:_stack) $(yarn -s cf:_params)",
     "cf:bootstrap:status": "aws cloudformation describe-stacks --query 'Stacks[0].StackStatus' $(yarn -s cf:bootstrap:_stack)",
-    "cf:bootstrap:_delete": "aws cloudformation delete-stack $(yarn -s cf:bootstrap:_stack)",
+    "cf:bootstrap:_get-bucket-versions": "eval $(yarn -s env) && aws s3api list-object-versions --bucket=\"cf-${SERVICE_NAME}-${STAGE}-terraform-state\" --output=json --query=\"{Objects: Versions[].{Key:Key,VersionId:VersionId}}\"",
+    "cf:bootstrap:_empty-bucket": "eval $(yarn -s env) && aws s3api delete-objects --bucket=\"cf-${SERVICE_NAME}-${STAGE}-terraform-state\" --delete=\"$(yarn -s cf:bootstrap:_get-bucket-versions)\" || echo \"No objects deleted/found.\"",
+    "cf:bootstrap:_delete-stack": "eval $(yarn -s env) && aws cloudformation delete-stack $(yarn -s cf:bootstrap:_stack)",
+    "cf:bootstrap:_get-bucket-versions": "eval $(yarn -s env) && aws s3api list-object-versions --bucket=\"cf-${SERVICE_NAME}-${STAGE}-terraform-state\" --output=json --query=\"{Objects: Versions[].{Key:Key,VersionId:VersionId}}\"",
+    "cf:bootstrap:_empty-bucket": "eval $(yarn -s env) && aws s3api delete-objects --bucket=\"cf-${SERVICE_NAME}-${STAGE}-terraform-state\" --delete=\"$(yarn -s cf:bootstrap:_get-bucket-versions)\" || echo \"No objects deleted/found.\"",
+    "cf:bootstrap:_delete-stack": "eval $(yarn -s env) && aws cloudformation delete-stack $(yarn -s cf:bootstrap:_stack)",
+    "cf:bootstrap:_delete": "eval $(yarn -s env) && yarn cf:bootstrap:_empty-bucket && yarn cf:bootstrap:_delete-stack",
     "tf:service:_backend": "eval $(yarn -s env) && echo -backend-config=\"bucket=cf-${SERVICE_NAME}-${STAGE}-terraform-state\" -backend-config=\"dynamodb_table=cf-${SERVICE_NAME}-${STAGE}-terraform-locks\" -backend-config=\"region=${AWS_REGION}\" ",
     "tf:terraform": "eval $(yarn -s env) && cd terraform && terraform",
     "tf:service:_vars": "eval $(yarn -s env) && echo -var \"region=${AWS_REGION}\" -var \"service_name=${SERVICE_NAME}\" -var \"stage=${STAGE}\" ",
@@ -35,19 +41,20 @@
   },
   "dependencies": {
     "dogs": "FormidableLabs/dogs",
-    "json-server": "^0.14.2",
+    "json-server": "^0.15.1",
     "lowdb-adapter-aws-s3": "^1.1.2",
-    "serverless-http": "^1.9.0"
+    "serverless-http": "^2.3.0"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.13.0",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.7.2",
     "eslint-config-formidable": "^4.0.0",
     "eslint-plugin-filenames": "^1.3.2",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-promise": "^4.0.1",
-    "nodemon": "^1.18.9",
-    "serverless": "^1.36.3",
-    "serverless-offline": "^4.2.1"
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "nodemon": "^2.0.2",
+    "serverless": "^1.59.3",
+    "serverless-jetpack": "^0.7.0",
+    "serverless-offline": "^5.12.1"
   }
 }
