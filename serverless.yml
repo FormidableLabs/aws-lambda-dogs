@@ -1,38 +1,59 @@
 # CloudFormation output name: `sls-${SERVICE_NAME}-${STAGE}`
 service: sls-${self:custom.service}
 
-package:
-  exclude:
-    - "*"
-    - "aws/**"
-    - "terraform/**"
-    - "**/node_modules/.cache/**"
-    - "**/node_modules/aws-sdk/**" # included on Lambda.
-    - "**/node_modules/.yarn-integrity"
-    - "!package.json"
-
-  # Serverless packages all our deps. We want to exclude the dev ones because
-  # we have such a limited amount of space.
-  excludeDevDependencies: true
-
 custom:
   service: ${env:SERVICE_NAME}
   region: ${opt:region, env:AWS_REGION}
   stage: ${opt:stage, env:STAGE}
+  jetpack:
+    preInclude:
+      - "!**" # Start with absolutely nothing
+
+package:
+  include:
+    # Root level
+    - "package.json"
+    # Source directories
+    - "src/**"
+    # General exclusions
+    - "!**/.DS_Store"
+    - "!**/yarn.lock"
+    - "!**/package-lock.json"
+    - "!**/node_modules/.yarn-integrity"
+    - "!**/node_modules/.cache/**"
+    # Dependencies
+    - "!**/node_modules/aws-sdk/**"
+    - "!**/node_modules/{@*/*,*}/CHANGELOG.md"
+    - "!**/node_modules/{@*/*,*}/HISTORY.md"
+    - "!**/node_modules/{@*/*,*}/LICENSE"
+    - "!**/node_modules/{@*/*,*}/README.md"
 
 plugins:
   - serverless-offline
+  - serverless-jetpack
 
 provider:
   name: aws
-  runtime: nodejs8.10
+
+  # Lambda configuration
+  runtime: nodejs12.x
+  timeout: 30 # seconds (`300` max)
+  memorySize: 128 # MB value (`1024` default)
+
+  # Deployment / environment configuration
   region: ${self:custom.region}
   stage: ${self:custom.stage}
   environment:
     STAGE: ${self:custom.stage}
     SERVICE_NAME: ${self:custom.service}
-  timeout: 30 # seconds (`300` max)
-  memorySize: 128 # MB value (`1024` default)
+
+  # AWS Resource Tags: Match terraform module
+  stackTags: # For CF stack
+    Stage: ${self:custom.stage}
+    Service: ${self:custom.service}
+  tags: # For resources
+    Stage: ${self:custom.stage}
+    Service: ${self:custom.service}
 
 functions:
   server:
@@ -40,4 +61,3 @@ functions:
     events: # Use a generic proxy to allow Express app to route.
       - http: ANY /
       - http: 'ANY /{proxy+}'
-
