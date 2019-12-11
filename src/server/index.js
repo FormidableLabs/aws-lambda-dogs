@@ -83,7 +83,6 @@ const createSubApp = async ({ isLambda, isReadOnly }) => {
   }
   const router = jsonServer.router(adapter);
   router.db._.id = "key";
-  subApp.use(router);
 
   // Reset data to initial state
   if (!isReadOnly) {
@@ -98,6 +97,8 @@ const createSubApp = async ({ isLambda, isReadOnly }) => {
       res.json({ msg: "Database reset" });
     });
   }
+
+  subApp.use(router);
 
   return subApp;
 };
