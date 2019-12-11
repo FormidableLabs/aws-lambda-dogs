@@ -8,8 +8,34 @@ terraform {
   }
 }
 
+resource "aws_resourcegroups_group" "resources_stage" {
+  name = "tf-${var.service_name}-${var.stage}"
+
+  resource_query {
+    query = <<JSON
+{
+  "ResourceTypeFilters": [
+    "AWS::AllSupported"
+  ],
+  "TagFilters": [
+    {
+      "Key": "Service",
+      "Values": ["${var.service_name}"]
+    },
+    {
+      "Key": "Stage",
+      "Values": ["${var.stage}"]
+    }
+  ]
+}
+JSON
+  }
+}
+
 module "serverless" {
-  source = "FormidableLabs/serverless/aws"
+  source = "../../terraform-aws-serverless//"
+  # TODO REENABLE source  = "FormidableLabs/serverless/aws"
+  # TODO REENABLE version = "0.8.6"
 
   region       = "${var.region}"
   service_name = "${var.service_name}"

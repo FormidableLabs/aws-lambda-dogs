@@ -37,6 +37,13 @@ Resources:
       # > and human error.
       VersioningConfiguration:
         Status: Enabled
+      Tags:
+        -
+          Key: "Service"
+          Value: !Sub "${ServiceName}"
+        -
+          Key: "Stage"
+          Value: !Sub "${Stage}"
 
   TerraformLocks:
     Type: AWS::DynamoDB::Table
@@ -49,3 +56,10 @@ Resources:
       AttributeDefinitions:
         - AttributeName: LockID
           AttributeType: S
+      Tags:
+        -
+          Key: "Service"
+          Value: !Sub "${ServiceName}"
+        -
+          Key: "Stage"
+          Value: !Sub "${Stage}"
