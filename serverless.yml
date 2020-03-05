@@ -8,26 +8,9 @@ custom:
   jetpack:
     preInclude:
       - "!**" # Start with absolutely nothing
-
-package:
-  include:
-    # Root level
-    - "package.json"
-    # Source directories
-    - "public/**"
-    - "src/**"
-    # General exclusions
-    - "!**/.DS_Store"
-    - "!**/yarn.lock"
-    - "!**/package-lock.json"
-    - "!**/node_modules/.yarn-integrity"
-    - "!**/node_modules/.cache/**"
-    # Dependencies
-    - "!**/node_modules/aws-sdk/**"
-    - "!**/node_modules/{@*/*,*}/CHANGELOG.md"
-    - "!**/node_modules/{@*/*,*}/HISTORY.md"
-    - "!**/node_modules/{@*/*,*}/LICENSE"
-    - "!**/node_modules/{@*/*,*}/README.md"
+    trace:
+      ignores:
+        - aws-sdk # Provide in lambda
 
 plugins:
   - serverless-offline
@@ -66,3 +49,7 @@ functions:
     events: # Use a generic proxy to allow Express app to route.
       - http: ANY /
       - http: 'ANY /{proxy+}'
+    package:
+      include:
+        # Need public directory manual inclusion for web page.
+        - "public/**"
