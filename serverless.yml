@@ -12,6 +12,14 @@ custom:
       ignores:
         - aws-sdk # Provide in lambda
 
+package:
+  include:
+    # Need public directory manual inclusion for web page.
+    - "public/**"
+    # Non-traceable dependency files
+    # See: https://github.com/FormidableLabs/trace-deps/issues/16
+    - "node_modules/errorhandler/public/**"
+
 plugins:
   - serverless-offline
   - serverless-jetpack
@@ -49,7 +57,3 @@ functions:
     events: # Use a generic proxy to allow Express app to route.
       - http: ANY /
       - http: 'ANY /{proxy+}'
-    package:
-      include:
-        # Need public directory manual inclusion for web page.
-        - "public/**"
