@@ -5421,9 +5421,10 @@ serverless-http@^2.3.2:
   optionalDependencies:
     "@types/aws-lambda" "^8.10.19"
 
-serverless-jetpack@FormidableLabs/serverless-jetpack#feature/trace-deps:
-  version "0.9.0"
-  resolved "https://codeload.github.com/FormidableLabs/serverless-jetpack/tar.gz/169726eba4a9b6a444fcfca800e08a8cb3e1c8c0"
+serverless-jetpack@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/serverless-jetpack/-/serverless-jetpack-0.10.0.tgz#fef85c265d9f9e84b4d1e4485102a0ff694f464e"
+  integrity sha512-LkK0CrOwd8lRaz+LiA4cTyWAkcxXERx0m+gHEgdvxpF2dzDayOjDxFr6cMITPGYMAd8ZjybTf2LJCjdCk+1HZg==
   dependencies:
     archiver "^3.1.1"
     globby "^9.2.0"
