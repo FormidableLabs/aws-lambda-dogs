@@ -8,26 +8,17 @@ custom:
   jetpack:
     preInclude:
       - "!**" # Start with absolutely nothing
+    trace:
+      ignores:
+        - aws-sdk # Provide in lambda
 
 package:
   include:
-    # Root level
-    - "package.json"
-    # Source directories
+    # Need public directory manual inclusion for web page.
     - "public/**"
-    - "src/**"
-    # General exclusions
-    - "!**/.DS_Store"
-    - "!**/yarn.lock"
-    - "!**/package-lock.json"
-    - "!**/node_modules/.yarn-integrity"
-    - "!**/node_modules/.cache/**"
-    # Dependencies
-    - "!**/node_modules/aws-sdk/**"
-    - "!**/node_modules/{@*/*,*}/CHANGELOG.md"
-    - "!**/node_modules/{@*/*,*}/HISTORY.md"
-    - "!**/node_modules/{@*/*,*}/LICENSE"
-    - "!**/node_modules/{@*/*,*}/README.md"
+    # Non-traceable dependency files
+    # See: https://github.com/FormidableLabs/trace-deps/issues/16
+    - "node_modules/errorhandler/public/**"
 
 plugins:
   - serverless-offline
