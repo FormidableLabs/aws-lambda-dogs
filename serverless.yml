@@ -5,7 +5,7 @@ custom:
   service: ${env:SERVICE_NAME}
   region: ${opt:region, env:AWS_REGION}
   stage: ${opt:stage, env:STAGE}
-  apikey: ${opt:apikey, env:API_KEY_SECRET}
+  apikey: ${env:API_KEY_SECRET}
   jetpack:
     preInclude:
       - "!**" # Start with absolutely nothing
