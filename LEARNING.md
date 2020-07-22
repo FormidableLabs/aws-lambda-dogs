@@ -88,10 +88,12 @@ Your superadmin user should be reserved only for work on _new_ environments. If 
 
 1. Completely review and read the `README.md` one more time and ask questions in a slack channel!
 
-1. Do a deployment of the serverless branch as-is off `master` branch:
+1. Do a deployment of the serverless branch as-is off `master` branch. (_For Formidables only_) The `API_KEY_SECRET` value can be found in our 1Password IC vault under the entry `aws-lambda-dogs keys`:
 
     ```sh
-    $ STAGE=sandbox aws-vault exec FIRST.LAST-developer --no-session -- \
+    $ STAGE=sandbox \
+      API_KEY_SECRET=<sandbox key> \
+      aws-vault exec FIRST.LAST-developer --no-session -- \
       yarn lambda:deploy
     ```
 
@@ -107,14 +109,18 @@ Your superadmin user should be reserved only for work on _new_ environments. If 
       yarn lambda:_delete
 
     # Now, the `lambda:deploy` command needs an `-admin` user to create.
-    $ STAGE=sandbox aws-vault exec FIRST.LAST-admin --no-session -- \
+    $ STAGE=sandbox \
+      API_KEY_SECRET=<sandbox key> \
+      aws-vault exec FIRST.LAST-admin --no-session -- \
       yarn lambda:deploy
     ```
 
 1. Create a temporary branch and edit something in `src/server/base.js` that will be visible from a public URL. Then deploy it and check the results!
 
     ```sh
-    $ STAGE=sandbox aws-vault exec FIRST.LAST-developer --no-session -- \
+    $ STAGE=sandbox \
+      API_KEY_SECRET=<sandbox key> \
+      aws-vault exec FIRST.LAST-developer --no-session -- \
       yarn lambda:deploy
     ```
 
@@ -193,7 +199,9 @@ Once you've got the basics of serverless deployment down, you can move on to doi
 
         ```sh
         # Deploy the serverless app as `-admin`
-        $ STAGE=sandbox-FIRST-LAST aws-vault exec FIRST.LAST-admin --no-session -- \
+        $ STAGE=sandbox-FIRST-LAST \
+          API_KEY_SECRET=<sandbox key> \
+          aws-vault exec FIRST.LAST-admin --no-session -- \
           yarn lambda:deploy
         ```
 
