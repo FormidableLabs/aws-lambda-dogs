@@ -5,6 +5,7 @@ custom:
   service: ${env:SERVICE_NAME}
   region: ${opt:region, env:AWS_REGION}
   stage: ${opt:stage, env:STAGE}
+  apikey: ${opt:apikey, env:API_KEY_SECRET}
   jetpack:
     preInclude:
       - "!**" # Start with absolutely nothing
@@ -42,6 +43,7 @@ provider:
   environment:
     STAGE: ${self:custom.stage}
     SERVICE_NAME: ${self:custom.service}
+    API_KEY_SECRET: ${self:custom.apikey}
 
   # AWS Resource Tags: Match terraform module
   stackTags: # For CF stack
