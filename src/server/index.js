@@ -25,10 +25,10 @@ const remoteBucket = `tf-fmd-${SERVICE_NAME}-${STAGE}-${AWS_REGION}-data`;
 // Regenerate with `openssl rand -hex 16`
 // **NOTE**: Do **not** do real secrets like ^^^^^ 😂
 const API_KEY_HEADER = "x-dogs-api-key";
-const API_KEY_SECRET = "534d2ce3c021f7eb0a3eff708b981a40";
+const { API_KEY_SECRET } = process.env;
 
 // Check valid, matching API key secret header.
-const hasApiKey = (req) => req.headers[API_KEY_HEADER] === API_KEY_SECRET;
+const hasApiKey = (req) => API_KEY_SECRET && req.headers[API_KEY_HEADER] === API_KEY_SECRET;
 
 const localDbPath = ({ isLambda }) =>
   resolve(`.db-${STAGE}-${isLambda ? "lambda" : "node"}.json`);

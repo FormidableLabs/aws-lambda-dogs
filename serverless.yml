@@ -5,6 +5,13 @@ custom:
   service: ${env:SERVICE_NAME}
   region: ${opt:region, env:AWS_REGION}
   stage: ${opt:stage, env:STAGE}
+  apikey: ${env:API_KEY_SECRET}
+  # **WARNING: Brittle**: This is unused and just a hack to force the serverless
+  # build to fail if API_KEY_SECRET is not present in the environment.
+  # What we _want_ is for serverless to fail on `apikey` being empty above. But
+  # it will only warn. By doing a contatenation here, this unused variable
+  # becomes a canary that fails the entire build if API_KEY_SECRET is missing.
+  apikey-required: ${env:API_KEY_SECRET}-required
   jetpack:
     preInclude:
       - "!**" # Start with absolutely nothing
@@ -42,6 +49,7 @@ provider:
   environment:
     STAGE: ${self:custom.stage}
     SERVICE_NAME: ${self:custom.service}
+    API_KEY_SECRET: ${self:custom.apikey}
 
   # AWS Resource Tags: Match terraform module
   stackTags: # For CF stack
