@@ -7,6 +7,9 @@
   "license": "MIT",
   "scripts": {
     "env": "echo export STAGE=${STAGE:-localdev}; echo export SERVICE_NAME=dogs; echo export AWS_REGION=${AWS_REGION:-us-east-1}; echo export AWS_XRAY_CONTEXT_MISSING=LOG_ERROR",
+    "build:toc-files": "find . -name '*.md' -type f -not -path './node_modules/*' -not -path './terraform/.terraform/*' -exec grep -l '<!-- START doctoc' {} \\;",
+    "build:toc": "doctoc --notitle $(yarn -s build:toc-files)",
+    "build": "yarn build:toc && yarn tf:terraform fmt",
     "lint": "eslint .",
     "check": "yarn run lint",
     "node:localdev": "eval $(yarn -s env) && SERVER_PORT=${SERVER_PORT:-3000} SERVER_HOST=${SERVER_HOST:-0.0.0.0} nodemon --watch src src/server/index.js",
@@ -44,6 +47,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
+    "doctoc": "^1.4.0",
     "eslint": "^6.8.0",
     "eslint-config-formidable": "^4.0.0",
     "eslint-plugin-filenames": "^1.3.2",

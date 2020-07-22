@@ -13,7 +13,7 @@ variable "service_name" {
 }
 
 locals {
-  data_bucket_name     = "tf-fmd-${var.service_name}-${var.stage}-${var.region}-data"
+  data_bucket_name = "tf-fmd-${var.service_name}-${var.stage}-${var.region}-data"
 
   tags = "${map(
     "Service", "${var.service_name}",

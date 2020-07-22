@@ -3,6 +3,20 @@ AWS Lambda Dogs REST API
 
 A simple REST API for our beloved [formidadogs][] using [json-server][] and [serverless][].
 
+## Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Usage](#usage)
+- [Development](#development)
+- [API](#api)
+  - [Authentication](#authentication)
+  - [Examples](#examples)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Usage
 
 The infrastructure, deployment, and operational parts of this project are identical to [aws-lambda-serverless-reference][]. Follow the entire guide there.
@@ -32,7 +46,7 @@ To switch to "read-write + persistent" mode, add this header to all requests `x-
 These examples use `node:localdev` at `http://localhost:3000` but you can adjust them easily for `lambda:localdev` or the real API at `yarn lambda:info`:
 
 ```sh
-# All teh doggos
+# All the doggos
 $ curl "http://localhost:3000/dogs"
 
 # 5 doggos
@@ -61,7 +75,7 @@ $ curl -X POST "http://localhost:3000/reset" \
 Some sample Lambda workflows (for `sandbox` environment, which may get nuked/recreated at any time):
 
 ```sh
-# All teh doggos
+# All the doggos
 $ curl "https://elei8f5o59.execute-api.us-east-1.amazonaws.com/sandbox/dogs"
 
 # Just Rusty by ID
