@@ -1984,7 +1984,7 @@ doctrine@^3.0.0:
 
 dogs@FormidableLabs/dogs:
   version "1.0.0"
-  resolved "https://codeload.github.com/FormidableLabs/dogs/tar.gz/bc2ca4edc287fc1defb3900818a7ef6f985ae86c"
+  resolved "https://codeload.github.com/FormidableLabs/dogs/tar.gz/46f5828b8dc7c9055e0ec07433bc4e3184a859e8"
 
 dom-serializer@0:
   version "0.2.2"
