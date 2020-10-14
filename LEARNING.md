@@ -185,7 +185,6 @@ Once you've got the basics of serverless deployment down, you can move on to doi
     1. Create a new temporary branch off the repo (not a fork) so that other Formidables can easily jump in and help you.
     2. Per the instructions above, make sure to talk to Tyler or Roemer and have them review and approve the tentative changes before trying any real AWS provisioning actions.
     3. Once everything is ready, go ahead and provision your entire infrastructure!
-    4. Add your stage name to the AllowedValues list in the [CloudFormation file](https://github.com/FormidableLabs/aws-lambda-dogs/blob/master/aws/bootstrap.yml#L22)
 
         ```sh
         # Create the CloudFormation bootstrap stack
