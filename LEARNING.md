@@ -40,26 +40,30 @@ We have **three** main reference projects from which to learn:
 
     ```sh
     # 1. Check CloudFormation as superadmin
-    $ STAGE=sandbox aws-vault exec FIRST.LAST --no-session -- \
+    $ STAGE=sandbox \
+      aws-vault exec FIRST.LAST --no-session -- \
       yarn cf:bootstrap:status
     ...
     "UPDATE_COMPLETE" # (or some other status)
 
     # 2. Check Terraform as superadmin
     # 2.a. Init to appropriate stage backend.
-    $ STAGE=sandbox aws-vault exec FIRST.LAST --no-session -- \
+    $ STAGE=sandbox \
+      aws-vault exec FIRST.LAST --no-session -- \
       yarn tf:service:init --reconfigure
     ...
     Terraform has been successfully initialized!
 
     # 2.b. Run plan to see any changes from our code vs. actual infrastructure.
-    $ STAGE=sandbox aws-vault exec FIRST.LAST --no-session -- \
+    $ STAGE=sandbox \
+      aws-vault exec FIRST.LAST --no-session -- \
       yarn tf:service:plan
     ...
     No changes. Infrastructure is up-to-date.
 
     # 3. Check Serverless as `-developer`
-    $ STAGE=sandbox aws-vault exec FIRST.LAST-developer --no-session -- \
+    $ STAGE=sandbox \
+      aws-vault exec FIRST.LAST-developer --no-session -- \
       yarn lambda:info
     ...
     Service Information
@@ -105,7 +109,8 @@ Your superadmin user should be reserved only for work on _new_ environments. If 
 
     ```sh
     # Be careful!
-    $ STAGE=sandbox aws-vault exec FIRST.LAST-admin --no-session -- \
+    $ STAGE=sandbox \
+      aws-vault exec FIRST.LAST-admin --no-session -- \
       yarn lambda:_delete
 
     # Now, the `lambda:deploy` command needs an `-admin` user to create.
@@ -134,13 +139,15 @@ Once you've got the basics of serverless deployment down, you can move on to doi
 
     ```sh
     # Check the existing status.
-    $ STAGE=sandbox aws-vault exec FIRST.LAST --no-session -- \
+    $ STAGE=sandbox \
+      aws-vault exec FIRST.LAST --no-session -- \
       yarn cf:bootstrap:status
     ...
     "UPDATE_COMPLETE"
 
     # Attempt an update. If everything is up-to-date on master, you'll get an expected error.
-    $ STAGE=sandbox aws-vault exec FIRST.LAST --no-session -- \
+    $ STAGE=sandbox \
+      aws-vault exec FIRST.LAST --no-session -- \
       yarn cf:bootstrap:update
     ...
     An error occurred (ValidationError) when calling the UpdateStack operation: No updates are to be performed.
@@ -150,20 +157,23 @@ Once you've got the basics of serverless deployment down, you can move on to doi
 
     ```sh
     # Init to appropriate stage backend.
-    $ STAGE=sandbox aws-vault exec FIRST.LAST --no-session -- \
+    $ STAGE=sandbox \
+      aws-vault exec FIRST.LAST --no-session -- \
       yarn tf:service:init --reconfigure
     ...
     Terraform has been successfully initialized!
 
     # Run plan to see any changes from our code vs. actual infrastructure.
-    $ STAGE=sandbox aws-vault exec FIRST.LAST --no-session -- \
+    $ STAGE=sandbox \
+      aws-vault exec FIRST.LAST --no-session -- \
       yarn tf:service:plan
     ...
     No changes. Infrastructure is up-to-date.
 
 
     # Run apply to make changes (or no-op) from our code vs. actual infrastructure.
-    $ STAGE=sandbox aws-vault exec FIRST.LAST --no-session -- \
+    $ STAGE=sandbox \
+      aws-vault exec FIRST.LAST --no-session -- \
       yarn tf:service:apply
     ...
     Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
@@ -175,21 +185,26 @@ Once you've got the basics of serverless deployment down, you can move on to doi
     1. Create a new temporary branch off the repo (not a fork) so that other Formidables can easily jump in and help you.
     2. Per the instructions above, make sure to talk to Tyler or Roemer and have them review and approve the tentative changes before trying any real AWS provisioning actions.
     3. Once everything is ready, go ahead and provision your entire infrastructure!
+    4. Add your stage name to the AllowedValues list in the [CloudFormation file](https://github.com/FormidableLabs/aws-lambda-dogs/blob/master/aws/bootstrap.yml#L22)
 
         ```sh
         # Create the CloudFormation bootstrap stack
-        $ STAGE=sandbox-FIRST-LAST aws-vault exec FIRST.LAST --no-session -- \
+        $ STAGE=sandbox-FIRST-LAST \
+          aws-vault exec FIRST.LAST --no-session -- \
           yarn cf:bootstrap:create
 
         # Confirm done in `CREATE|UPDATE_COMPLETE` status.
-        $ STAGE=sandbox-FIRST-LAST aws-vault exec FIRST.LAST --no-session -- \
+        $ STAGE=sandbox-FIRST-LAST \
+          aws-vault exec FIRST.LAST --no-session -- \
           yarn cf:bootstrap:status
 
         # Create the Terraform service stack
-        $ STAGE=sandbox-FIRST-LAST aws-vault exec FIRST.LAST --no-session -- \
+        $ STAGE=sandbox-FIRST-LAST \
+          aws-vault exec FIRST.LAST --no-session -- \
           yarn tf:service:init --reconfigure
 
-        $ STAGE=sandbox-FIRST-LAST aws-vault exec FIRST.LAST --no-session -- \
+        $ STAGE=sandbox-FIRST-LAST \
+          aws-vault exec FIRST.LAST --no-session -- \
           yarn tf:service:apply
         # Type "yes" at prompt for resource creation after a review
 
@@ -214,16 +229,23 @@ Once you've got the basics of serverless deployment down, you can move on to doi
 
         ```sh
         # Delete the serverless app as `-admin`
-        $ STAGE=sandbox-FIRST-LAST aws-vault exec FIRST.LAST-admin --no-session -- \
+        $ STAGE=sandbox-FIRST-LAST \
+          API_KEY_SECRET=<sandbox key> \
+          aws-vault exec FIRST.LAST-admin --no-session -- \
           yarn lambda:_delete
 
         # Delete Terraform support stack
-        $ STAGE=sandbox-FIRST-LAST aws-vault exec FIRST.LAST --no-session -- \
+        # You will need to manually delete the following before running terraform destroy
+        # 1) db.json inside of the tf-fmd-dogs-sandbox-FIRST-LAST-us-east-1-data (S3) otherwise you will encounter a BucketNotEmpty exception
+        # 2) `FIRST.LAST-admin` inside of the IAM Group `tf-dogs-sandbox-FIRST-LAST-admin` otherwise you will encounter a DeleteConflict exception
+        $ STAGE=sandbox-FIRST-LAST \
+          aws-vault exec FIRST.LAST --no-session -- \
           yarn tf:service:_delete
         # Type "yes" if prompted
 
         # Delete the CloudFormation bootstrap stack
-        $ STAGE=sandbox-FIRST-LAST aws-vault exec FIRST.LAST --no-session -- \
+        $ STAGE=sandbox-FIRST-LAST \
+          aws-vault exec FIRST.LAST --no-session -- \
           yarn cf:bootstrap:_delete
         ```
 
