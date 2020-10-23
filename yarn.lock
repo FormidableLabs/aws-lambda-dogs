@@ -97,6 +97,11 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@formidable/dogs@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@formidable/dogs/-/dogs-1.1.0.tgz#914791b5d867257bfa9e2a8fec84103faf6bd6fe"
+  integrity sha512-V10dLTKp9+gXc7hLY3vHJHlgzk2jL42yfA8CUlPzzt30oZO6WX7VmEdpX70mMRTdVv4ggPmnM8rCy6p958pSWw==
+
 "@hapi/accept@^3.2.4":
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/@hapi/accept/-/accept-3.2.4.tgz#687510529493fe1d7d47954c31aff360d9364bd1"
@@ -1981,10 +1986,6 @@ doctrine@^3.0.0:
   integrity sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==
   dependencies:
     esutils "^2.0.2"
-
-dogs@FormidableLabs/dogs:
-  version "1.0.0"
-  resolved "https://codeload.github.com/FormidableLabs/dogs/tar.gz/46f5828b8dc7c9055e0ec07433bc4e3184a859e8"
 
 dom-serializer@0:
   version "0.2.2"

@@ -4,7 +4,7 @@ const fs = require("fs");
 const { promisify } = require("util");
 const { resolve } = require("path");
 const jsonServer = require("json-server");
-const dogs = require("dogs/dogs.json");
+const dogs = require("@formidable/dogs").default;
 const { log } = console;
 
 const existsP = promisify(fs.exists);
