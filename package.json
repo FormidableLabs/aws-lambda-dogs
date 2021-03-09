@@ -40,10 +40,10 @@
     "tf:service:_delete": "yarn run tf:terraform destroy $(yarn -s tf:service:_vars)"
   },
   "dependencies": {
-    "@formidable/dogs": "^1.1.0",
-    "json-server": "^0.16.1",
+    "@formidable/dogs": "^1.1.2",
+    "json-server": "^0.16.3",
     "lowdb-adapter-aws-s3": "^1.1.2",
-    "serverless-http": "^2.3.2"
+    "serverless-http": "^2.7.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
@@ -55,7 +55,7 @@
     "eslint-plugin-promise": "^4.0.1",
     "nodemon": "^2.0.2",
     "serverless": "^1.61.1",
-    "serverless-jetpack": "^0.10.0",
+    "serverless-jetpack": "^0.10.8",
     "serverless-offline": "^5.12.1"
   }
 }
