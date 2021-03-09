@@ -8,7 +8,6 @@ A simple REST API for our beloved [formidadogs][] using [json-server][] and [ser
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Usage](#usage)
 - [Development](#development)
 - [API](#api)
