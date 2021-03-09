@@ -8,12 +8,14 @@ A simple REST API for our beloved [formidadogs][] using [json-server][] and [ser
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Usage](#usage)
 - [Development](#development)
 - [API](#api)
   - [Authentication](#authentication)
   - [Examples](#examples)
+    - [Localdev](#localdev)
+    - [Staging](#staging)
+    - [Production](#production)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -31,8 +33,9 @@ Run in memory with persistence to local disk.
 # nodemon (`.db-localdev-lambda.json`): http://localhost:3000
 $ yarn node:localdev
 
-# serverless-offline (`.db-localdev-node.json`): http://localhost:3001
-$ yarn lambda:localdev
+# serverless-offline (`.db-localdev-node.json`): http://localhost:3001/localdev/
+# We use a temp value for API_KEY_SECRET (can pick anything).
+$ API_KEY_SECRET=localdev yarn lambda:localdev
 ```
 
 ## API
@@ -55,6 +58,8 @@ $ STAGE=sandbox \
 ```
 
 ### Examples
+
+#### Localdev
 
 These examples use `node:localdev` at `http://localhost:3000` but you can adjust them easily for `lambda:localdev` or the real API at `yarn lambda:info`:
 
@@ -85,27 +90,60 @@ $ curl -X POST "http://localhost:3000/reset" \
   --header "x-dogs-api-key: <key>"
 ```
 
+#### Staging
+
 Some sample Lambda workflows (for `sandbox` environment, which may get nuked/recreated at any time):
 
 ```sh
+# First, check the Sandbox info (currently `30lxcuxu8d`)
+$ STAGE=sandbox \
+  aws-vault exec FIRST.LAST-developer --no-session -- \
+  yarn lambda:info
+
 # All the doggos
-$ curl "https://elei8f5o59.execute-api.us-east-1.amazonaws.com/sandbox/dogs"
+$ curl "https://30lxcuxu8d.execute-api.us-east-1.amazonaws.com/sandbox/dogs"
 
 # Just Rusty by ID
-$ curl "https://elei8f5o59.execute-api.us-east-1.amazonaws.com/sandbox/dogs/cLnG8C2d_"
+$ curl "https://30lxcuxu8d.execute-api.us-east-1.amazonaws.com/sandbox/dogs/cLnG8C2d_"
 
 # Update Rusty's name in read-write datastore.
-$ curl -X PATCH "https://elei8f5o59.execute-api.us-east-1.amazonaws.com/sandbox/dogs/cLnG8C2d_" \
+$ curl -X PATCH "https://30lxcuxu8d.execute-api.us-east-1.amazonaws.com/sandbox/dogs/cLnG8C2d_" \
   --data name="Rustinus B. Rutherford" \
   --header "x-dogs-api-key: <key>"
 
-$ curl "https://elei8f5o59.execute-api.us-east-1.amazonaws.com/sandbox/dogs/cLnG8C2d_" \
+$ curl "https://30lxcuxu8d.execute-api.us-east-1.amazonaws.com/sandbox/dogs/cLnG8C2d_" \
   --header "x-dogs-api-key: <key>"
 
 # Reset the read-write datastore back to original state.
-$ curl -X POST "https://elei8f5o59.execute-api.us-east-1.amazonaws.com/sandbox/reset" \
+$ curl -X POST "https://30lxcuxu8d.execute-api.us-east-1.amazonaws.com/sandbox/reset" \
   --header "x-dogs-api-key: <key>"
 ```
+
+#### Production
+
+For production, we have a custom mapping of `https://HASH.execute-api.us-east-1.amazonaws.com/production/` to `https://dogs.formidable.dev/`.
+
+```sh
+# All the doggos
+$ curl "https://dogs.formidable.dev/dogs"
+
+# Just Rusty by ID
+$ curl "https://dogs.formidable.dev/dogs/cLnG8C2d_"
+
+# Update Rusty's name in read-write datastore.
+$ curl -X PATCH "https://dogs.formidable.dev/dogs/cLnG8C2d_" \
+  --data name="Rustinus B. Rutherford" \
+  --header "x-dogs-api-key: <key>"
+
+$ curl "https://dogs.formidable.dev/dogs/cLnG8C2d_" \
+  --header "x-dogs-api-key: <key>"
+
+# Reset the read-write datastore back to original state.
+$ curl -X POST "https://dogs.formidable.dev/reset" \
+  --header "x-dogs-api-key: <key>"
+```
+
+Also note to deploy, you will need a privileged user. Please talk to the ops team to make sure you've got the right credentials.
 
 [formidadogs]: https://github.com/FormidableLabs/dogs
 [json-server]: https://github.com/typicode/json-server

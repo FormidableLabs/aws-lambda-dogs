@@ -18,6 +18,14 @@ custom:
     trace:
       ignores:
         - aws-sdk # Provide in lambda
+      dynamic:
+        resolutions:
+          # Express dynamically imports view engines, which you can ignore if
+          # unused or add it specifically here or in an `include`.
+          #
+          # - [81:13]: require(mod)
+          #
+          "express/lib/view.js": false
 
 package:
   include:
