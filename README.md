@@ -13,6 +13,9 @@ A simple REST API for our beloved [formidadogs][] using [json-server][] and [ser
 - [API](#api)
   - [Authentication](#authentication)
   - [Examples](#examples)
+    - [Localdev](#localdev)
+    - [Staging](#staging)
+    - [Production](#production)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
