@@ -1,6 +1,8 @@
 AWS Lambda Dogs REST API
 ========================
 
+[![Maintenance Status][maintenance-image]](#maintenance-status)
+
 A simple REST API for our beloved [formidadogs][] using [json-server][] and [serverless][].
 
 ## Contents
@@ -155,3 +157,5 @@ Also note to deploy, you will need a privileged user. Please talk to the ops tea
 ## Maintenance Status
 
 **Active:** Formidable is actively working on this project, and we expect to continue for work for the foreseeable future. Bug reports, feature requests and pull requests are welcome.
+
+[maintenance-image]: https://img.shields.io/badge/maintenance-active-green.svg?color=brightgreen&style=flat
