@@ -1,5 +1,4 @@
-AWS Lambda Dogs REST API
-========================
+[![AWS Lambda Dogs REST API — Formidable, We build the modern web](https://raw.githubusercontent.com/FormidableLabs/aws-lambda-dogs/main/aws-lambda-dogs-Hero.png)](https://formidable.com/open-source/)
 
 [![Maintenance Status][maintenance-image]](#maintenance-status)
 
